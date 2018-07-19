@@ -1,0 +1,23 @@
+version: '2'
+services:
+  web:
+    environment:
+      - DEBUG=1
+    image: "cloudrexx/web:PHP5.6"
+    #image: "test-php5.6"
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+  composer:
+    image: "composer:latest"
+    command: tail -f /dev/null  # Trick to  "Keep Docker Container Running After Starting Services?" by https://stackoverflow.com/a/38292749, because the composer command din't run always like apache server or so. 
+    # So we have the ability to connect later to this composer image and do some composer (php) stuff.
+    volumes:
+      - .:/app
+
+volumes:
+  maildata:
+    driver: local
+  mailstate:
+    driver: local
